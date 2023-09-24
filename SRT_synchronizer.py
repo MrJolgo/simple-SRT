@@ -58,7 +58,6 @@ class Main(QWidget):
 		self.errorLabel.setStyleSheet("color: red")
 		self.errorLabel.move(10, 160)
 		self.errorLabel.setFixedSize(200, 30)
-		self.errorLabel.setText("Kek")
 	def fileView(self):
 		fileDialog = QFileDialog(self)
 		fileDialog.setNameFilter("*.srt");
@@ -96,7 +95,6 @@ class Main(QWidget):
 					if(is_first and self.backwardCheck.isChecked()):
 						if((int(line[0:2]) * 3600000 + int(line[3:5]) * 60000 + int(line[6:8]) * 1000 + int(line[9:12])) < (int(self.hours) * 3600000 + int(self.minutes) * 60000 + int(self.seconds) * 1000 + int(self.miliseconds)) ):
 							self.errorLabel.setText("Out of range")
-							print("Lel")
 							file.close()
 							return
 					time_from = timeObject(line[0:2], line[3:5], line[6:8], line[9:12])
@@ -111,11 +109,9 @@ class Main(QWidget):
 					line[0:2], line[3:5], line[6:8], line[9:12], line[17:19], line[20:22], line[23:25], line[26:29] = time_listed[0], time_listed[1], time_listed[2], time_listed[3], time_listed[4], time_listed[5], time_listed[6], time_listed[7]  
 					line = "".join(line)
 					buffer = buffer + line
-					print(line)
 					is_first = 0
 				else:
 					buffer = buffer + line 
-					print(line)
 			file.truncate(0)
 			file.write(buffer)		
 			file.close()
