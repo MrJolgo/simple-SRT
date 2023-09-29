@@ -10,6 +10,7 @@ class Main(QWidget):
 		self.setFixedSize(400, 200)
 		self.setWindowTitle("Simple SRT synchronizer")
 		self.iniUI()
+		self.path = ""
 	def iniUI(self):
 		layout = QGridLayout()
 		self.pathText = QLabel(self)
@@ -65,9 +66,9 @@ class Main(QWidget):
 		fileDialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
 		fileDialog.setViewMode(QFileDialog.ViewMode.List)
 		if fileDialog.exec():
-			path = fileDialog.selectedFiles()
-			path = path[0]
-			self.pathText.setText(path) if len(path) < 30 else self.pathText.setText(path[0:11] + "..." + path[-20:])   
+			self.path = fileDialog.selectedFiles()
+			self.path = self.path[0]
+			self.pathText.setText(self.path) if len(self.path) < 30 else self.pathText.setText(self.path[0:11] + "..." + self.path[-20:])   
 	def hourChange(self):
 		self.hours = self.hourSpin.value()
 	def minuteChange(self):
@@ -84,7 +85,7 @@ class Main(QWidget):
 			self.backwardCheck.setChecked(0)
 	def synchSRT(self):
 		if(self.pathText.text() and (self.forwardCheck.isChecked() or self.backwardCheck.isChecked())):
-			file = open(self.pathText.text(), "r+")
+			file = open(self.path, "r+")
 			buffer = ""
 			is_first = 1 #check, whether the iteration of time line is first so the program doesn't check if the user's input is out of range every time
 			while(1):
@@ -115,6 +116,8 @@ class Main(QWidget):
 			file.truncate(0)
 			file.write(buffer)		
 			file.close()
+			self.errorLabel.setText("Success!")
+
 
 class timeObject:
 	def __init__(self, h, m, s, ml):
